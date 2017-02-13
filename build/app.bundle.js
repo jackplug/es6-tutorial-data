@@ -63,11 +63,35 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 1);
+/******/ 	return __webpack_require__(__webpack_require__.s = 2);
 /******/ })
 /************************************************************************/
 /******/ ([
 /* 0 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.findAll = undefined;
+
+var _request = __webpack_require__(1);
+
+var _request2 = _interopRequireDefault(_request);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var findAll = exports.findAll = function findAll() {
+    return (0, _request2.default)({ url: "employees.json" }).then(function (data) {
+        return data = JSON.parse(data);
+    });
+};
+
+/***/ }),
+/* 1 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -101,27 +125,26 @@ exports.default = function (obj) {
 };
 
 /***/ }),
-/* 1 */
+/* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _request = __webpack_require__(0);
+var _employeeService = __webpack_require__(0);
 
-var _request2 = _interopRequireDefault(_request);
+var service = _interopRequireWildcard(_employeeService);
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
-(0, _request2.default)({ url: "employees.json" }).then(function (data) {
-    var employees = JSON.parse(data);
+service.findAll().then(function (employees) {
     var html = "";
     employees.forEach(function (employee) {
-        html += "\n                <div>\n                    <img src='" + employee.picture + "'/>\n                    <div>\n                        " + employee.firstName + " " + employee.lastName + "\n                        <p>" + employee.phone + "</p>\n                    </div>\n                </div>";
+        html += "<div>\n                        <img src='" + employee.picture + "'/>\n                        <div>\n                            " + employee.firstName + " " + employee.lastName + "\n                            <p>" + employee.phone + "</p>\n                        </div>\n                    </div>";
     });
     document.getElementById("list").innerHTML = html;
 }).catch(function (error) {
-    console.log(error);
+    return console.log(error);
 });
 
 /***/ })
