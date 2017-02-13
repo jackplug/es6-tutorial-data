@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 0);
+/******/ 	return __webpack_require__(__webpack_require__.s = 1);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -73,8 +73,11 @@
 "use strict";
 
 
-// XMLHttpRequest wrapper using callbacks
-var request = function request(obj) {
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+exports.default = function (obj) {
     return new Promise(function (resolve, reject) {
         var xhr = new XMLHttpRequest();
         xhr.open(obj.method || "GET", obj.url);
@@ -97,7 +100,20 @@ var request = function request(obj) {
     });
 };
 
-request({ url: "employees.json" }).then(function (data) {
+/***/ }),
+/* 1 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _request = __webpack_require__(0);
+
+var _request2 = _interopRequireDefault(_request);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+(0, _request2.default)({ url: "employees.json" }).then(function (data) {
     var employees = JSON.parse(data);
     var html = "";
     employees.forEach(function (employee) {
