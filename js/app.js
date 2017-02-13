@@ -1,43 +1,41 @@
 // XMLHttpRequest wrapper using callbacks
-let request = (obj, successHandler, errorHandler) => {
-    let xhr = new XMLHttpRequest();
-    xhr.open(obj.method || "GET", obj.url);
-    if (obj.headers) {
-        Object.keys(obj.headers).forEach(function(key) {
-            xhr.setRequestHeader(key, obj.headers[key]);
-        });
-    }
-    xhr.onload = () => {
-        if (xhr.status >= 200 && xhr.status < 300) {
-            successHandler(xhr.response);
-        } else {
-            errorHandler(xhr.statusText);
+let request = obj => {
+    return new Promise((resolve, reject) => {
+        let xhr = new XMLHttpRequest();
+        xhr.open(obj.method || "GET", obj.url);
+        if (obj.headers) {
+            Object.keys(obj.headers).forEach(key => {
+                xhr.setRequestHeader(key, obj.headers[key]);
+            });
         }
-    };
-    xhr.onerror = () => {
-        errorHandler(xhr.statusText);
-    };
-    xhr.send(obj.body);
-}
+        xhr.onload = () => {
+            if (xhr.status >= 200 && xhr.status < 300) {
+                resolve(xhr.response);
+            } else {
+                reject(xhr.statusText);
+            }
+        };
+        xhr.onerror = () => reject(xhr.statusText);
+        xhr.send(obj.body);
+    });
+};
 
-request({url:"employees.json"},
-    (data) => {
+request({url: "employees.json"})
+    .then(data => {
         let employees = JSON.parse(data);
         let html = "";
-        employees.forEach((employee) => {
+        employees.forEach(employee => {
             html += `
                 <div>
-                    <img src="${employee.picture}"/>
+                    <img src='${employee.picture}'/>
                     <div>
                         ${employee.firstName} ${employee.lastName}
                         <p>${employee.phone}</p>
                     </div>
-                </div>
-            `;
+                </div>`;
         });
         document.getElementById("list").innerHTML = html;
-    },
-    (error) => {
+    })
+    .catch(error => {
         console.log(error);
-    }
-);
+    });
