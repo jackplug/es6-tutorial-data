@@ -85,7 +85,7 @@ var _request2 = _interopRequireDefault(_request);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var findAll = exports.findAll = function findAll() {
-    return (0, _request2.default)({ url: "employees.json" }).then(function (data) {
+    return (0, _request2.default)({ url: "http://www.amock.io/api/v1/e-service" }).then(function (data) {
         return data = JSON.parse(data);
     });
 };
