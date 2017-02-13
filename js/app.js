@@ -1,4 +1,4 @@
-import * as service from "./employee-service-mock";
+import * as service from "./employee-service";
 
 service.findAll()
     .then(employees => {

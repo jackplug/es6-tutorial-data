@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 1);
+/******/ 	return __webpack_require__(__webpack_require__.s = 2);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -74,26 +74,20 @@
 
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
+    value: true
 });
-var employees = [{
-  id: 1,
-  firstName: "Amy",
-  lastName: "Taylor",
-  phone: "617-564-3254",
-  picture: "https://s3-us-west-1.amazonaws.com/sfdc-demo/people/amy_taylor.jpg"
-}, {
-  id: 2,
-  firstName: "Anup",
-  lastName: "Gupta",
-  phone: "617-564-1258",
-  picture: "https://s3-us-west-1.amazonaws.com/sfdc-demo/people/anup_gupta.jpg"
-}];
+exports.findAll = undefined;
+
+var _request = __webpack_require__(1);
+
+var _request2 = _interopRequireDefault(_request);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var findAll = exports.findAll = function findAll() {
-  return new Promise(function (resolve) {
-    return resolve(employees);
-  });
+    return (0, _request2.default)({ url: "employees.json" }).then(function (data) {
+        return data = JSON.parse(data);
+    });
 };
 
 /***/ }),
@@ -103,9 +97,43 @@ var findAll = exports.findAll = function findAll() {
 "use strict";
 
 
-var _employeeServiceMock = __webpack_require__(0);
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
 
-var service = _interopRequireWildcard(_employeeServiceMock);
+exports.default = function (obj) {
+    return new Promise(function (resolve, reject) {
+        var xhr = new XMLHttpRequest();
+        xhr.open(obj.method || "GET", obj.url);
+        if (obj.headers) {
+            Object.keys(obj.headers).forEach(function (key) {
+                xhr.setRequestHeader(key, obj.headers[key]);
+            });
+        }
+        xhr.onload = function () {
+            if (xhr.status >= 200 && xhr.status < 300) {
+                resolve(xhr.response);
+            } else {
+                reject(xhr.statusText);
+            }
+        };
+        xhr.onerror = function () {
+            return reject(xhr.statusText);
+        };
+        xhr.send(obj.body);
+    });
+};
+
+/***/ }),
+/* 2 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _employeeService = __webpack_require__(0);
+
+var service = _interopRequireWildcard(_employeeService);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
